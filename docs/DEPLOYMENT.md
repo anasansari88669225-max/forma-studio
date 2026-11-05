@@ -47,14 +47,21 @@ frontend build script. Do not add a dummy server build script: the Express API
 is a separate, persistent Node service and is not deployed by this Vercel
 frontend project.
 
-From the repository root, `vercel.json` explicitly runs
-`npm run build --workspace=client` and publishes `client/dist`.
+From the repository root, `vercel.json` runs `npm run build`. The root build
+script uses `npm --prefix client run build`, so it invokes the Vite app without
+requiring npm to resolve a workspace from Vercel's build-command working
+directory. It publishes `client/dist`.
 Vite copies `client/public/img` into that output, so the site's `/img/...`
 image paths are served from Vercel. The rewrite also makes client-side routes
 such as `/projects/casa-marnal` and `/admin` load on a direct visit or refresh.
 If you intentionally configure a separate Vercel project with **Root
 Directory** `client`, `client/vercel.json` publishes `dist` relative to that
 directory instead. Do not set Root Directory to `server`.
+
+If npm prints `Unknown env config "cache-dir"`, remove any legacy
+`npm_config_cache_dir` / `NPM_CONFIG_CACHE_DIR` variable from the Vercel
+project or organization environment. This warning is separate from the build
+failure; it does not replace the required root-directory setting.
 
 The Express API is a persistent Node service, not part of this static Vercel
 deployment. Set `VITE_API_URL` in Vercel's build environment to the API's
