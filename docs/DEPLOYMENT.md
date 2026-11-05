@@ -40,12 +40,21 @@ it live.
 
 ### Vercel frontend
 
-The root `vercel.json` builds the Vite workspace and publishes `client/dist`.
+For this npm-workspaces monorepo, set Vercel's **Root Directory** to the
+repository root (`.`), not `server`. The error path `/vercel/path0/server`
+means Vercel is running its build from the backend workspace, which has no
+frontend build script. Do not add a dummy server build script: the Express API
+is a separate, persistent Node service and is not deployed by this Vercel
+frontend project.
+
+From the repository root, `vercel.json` explicitly runs
+`npm run build --workspace=client` and publishes `client/dist`.
 Vite copies `client/public/img` into that output, so the site's `/img/...`
 image paths are served from Vercel. The rewrite also makes client-side routes
 such as `/projects/casa-marnal` and `/admin` load on a direct visit or refresh.
-If the Vercel project's **Root Directory** is set to `client`, the matching
-`client/vercel.json` publishes `dist` relative to that directory instead.
+If you intentionally configure a separate Vercel project with **Root
+Directory** `client`, `client/vercel.json` publishes `dist` relative to that
+directory instead. Do not set Root Directory to `server`.
 
 The Express API is a persistent Node service, not part of this static Vercel
 deployment. Set `VITE_API_URL` in Vercel's build environment to the API's
