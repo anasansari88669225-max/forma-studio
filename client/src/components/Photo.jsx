@@ -12,6 +12,7 @@ export default function Photo({
   className = '',
   sizes,
   eager = false,
+  jpgOnly = false,
   width,
   height,
   fetchpriority,
@@ -27,7 +28,7 @@ export default function Photo({
 
   return (
     <picture className={`photo ${className}`}>
-      {!external && (
+      {!external && !jpgOnly && (
         <source type="image/webp" srcSet={webpSrcSet(src)} sizes={sizes ?? sizesFor(layout)} width={width} height={height} />
       )}
       <img

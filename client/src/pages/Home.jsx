@@ -31,10 +31,14 @@ export default function Home() {
     <>
       <Hero
         variant="full"
+        jpgOnly
         kicker={studio?.heroKicker ?? 'Lisbon · Founded 2011'}
         title={studio?.heroTitle ?? 'Buildings that hold the light.'}
         lead={studio?.heroLead}
-        image={studio ? { src: studio.heroImageUrl, alt: studio.heroImageAlt } : null}
+        image={{
+          src: '/img/home/hero.jpg',
+          alt: studio?.heroImageAlt ?? 'Casa Marnal — west elevation at dusk, board-formed concrete under a deep oak canopy',
+        }}
         actions={
           <Link className="btn" to="/projects">
             See the work

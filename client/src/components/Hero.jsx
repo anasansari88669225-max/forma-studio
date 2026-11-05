@@ -11,6 +11,7 @@ export default function Hero({
   TitleTag = 'h1',
   lead,
   image,
+  jpgOnly = false,
   actions,
   aside,
   count,
@@ -21,7 +22,7 @@ export default function Hero({
       <section className="hero hero--full">
         {image?.src && (
           <div className="hero__media">
-            <Photo src={image.src} alt={image.alt} layout="full" eager />
+            <Photo src={image.src} alt={image.alt} layout="full" eager jpgOnly={jpgOnly} />
           </div>
         )}
         <div className="wrap hero__inner">
@@ -55,7 +56,7 @@ export default function Hero({
         </div>
         {image?.src && (
           <div className="hero__media">
-            <Photo src={image.src} alt={image.alt} layout="half" eager />
+            <Photo src={image.src} alt={image.alt} layout="half" eager jpgOnly={jpgOnly} />
           </div>
         )}
         {children}
