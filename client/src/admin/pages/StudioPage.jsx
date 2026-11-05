@@ -3,7 +3,7 @@ import { adminApi } from '../admin-api.js'
 import { useAdminData, useAdminMutation } from '../use-admin-data.js'
 import { AdmError, AdmLoading, Field, useTitle, useToast } from '../ui.jsx'
 
-const FIELDS = ['heroKicker', 'heroTitle', 'heroLead', 'heroImageUrl', 'heroImageAlt', 'street', 'city', 'country', 'email', 'phone', 'hours', 'instagram', 'linkedin', 'foundedYear']
+const FIELDS = ['heroKicker', 'heroTitle', 'heroLead', 'heroImageUrl', 'heroImageAlt', 'portraitImageUrl', 'portraitImageAlt', 'street', 'city', 'country', 'email', 'phone', 'hours', 'instagram', 'linkedin', 'foundedYear']
 
 export default function StudioPage() {
   useTitle('Studio settings')
@@ -59,6 +59,9 @@ export default function StudioPage() {
             <Field label="Introduction" htmlFor="st-lead" required error={errors.heroLead}><textarea id="st-lead" className="adm-textarea" value={form.heroLead ?? ''} onChange={set('heroLead')} /></Field>
             <div className="adm-row2"><Field label="Hero image URL" htmlFor="st-image" required error={errors.heroImageUrl}><input id="st-image" className="adm-input" value={form.heroImageUrl ?? ''} onChange={set('heroImageUrl')} /></Field><Field label="Hero alt text" htmlFor="st-alt" required error={errors.heroImageAlt}><input id="st-alt" className="adm-input" value={form.heroImageAlt ?? ''} onChange={set('heroImageAlt')} /></Field></div>
             <div><input ref={fileRef} className="adm-fileinput" type="file" accept="image/jpeg,image/png,image/webp" onChange={uploadHero} aria-label="Upload a new hero image" /><button type="button" className="adm-btn" onClick={() => fileRef.current?.click()} disabled={uploading || pending}>{uploading ? 'Processing image…' : 'Upload new hero image'}</button></div>
+          </section>
+          <section className="adm-panel adm-fieldgroup"><h2 className="adm-fieldgroup__title">About page portrait</h2>
+            <div className="adm-row2"><Field label="Portrait image URL" htmlFor="st-portrait-image" required error={errors.portraitImageUrl}><input id="st-portrait-image" className="adm-input" value={form.portraitImageUrl ?? ''} onChange={set('portraitImageUrl')} /></Field><Field label="Portrait alt text" htmlFor="st-portrait-alt" required error={errors.portraitImageAlt}><input id="st-portrait-alt" className="adm-input" value={form.portraitImageAlt ?? ''} onChange={set('portraitImageAlt')} /></Field></div>
           </section>
           <section className="adm-panel adm-fieldgroup"><h2 className="adm-fieldgroup__title">Contact details</h2>
             <Field label="Street address" htmlFor="st-street" required error={errors.street}><input id="st-street" className="adm-input" value={form.street ?? ''} onChange={set('street')} /></Field>

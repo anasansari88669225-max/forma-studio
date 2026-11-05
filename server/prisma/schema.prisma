@@ -31,14 +31,14 @@ enum InquiryStatus {
 }
 
 model AdminUser {
-  id          String    @id @default(uuid())
-  email       String    @unique
+  id           String    @id @default(uuid())
+  email        String    @unique
   passwordHash String
-  name        String
-  role        String    @default("admin")
-  lastLoginAt DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  name         String
+  role         String    @default("admin")
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   @@map("admin_users")
 }
@@ -66,7 +66,7 @@ model Project {
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
 
-  images      ProjectImage[]
+  images       ProjectImage[]
   testimonials Testimonial[]
 
   @@index([published, sortOrder])
@@ -138,7 +138,7 @@ model TeamMember {
   bio       String
   imageUrl  String
   imageAlt  String
-  email      String?
+  email     String?
   linkedin  String?
   sortOrder Int      @default(0)
   published Boolean  @default(true)
@@ -152,32 +152,34 @@ model TeamMember {
 /// Single-row document holding the copy and contact details that are not
 /// repeatable records: hero, philosophy, process and studio address.
 model StudioProfile {
-  id             String   @id @default("default")
-  heroKicker     String
-  heroTitle      String
-  heroLead       String
-  heroImageUrl   String   @default("/img/home/hero.jpg")
-  heroImageAlt   String   @default("FORMA Studio")
-  introKicker    String
-  introTitle     String
-  introBody      String[]
-  introImageUrl  String   @default("/img/home/intro.jpg")
-  introImageAlt  String   @default("Inside the studio")
-  philosophy     String[]
-  philosophyImageUrl String @default("/img/home/philosophy.jpg")
-  philosophyImageAlt String @default("Light and shadow detail")
-  process        Json     @default("[]")
-  stats          Json     @default("[]")
-  street         String
-  city           String
-  country        String
-  email          String
-  phone          String
-  hours          String
-  instagram      String?
-  linkedin       String?
-  foundedYear    Int
-  updatedAt      DateTime @updatedAt
+  id                 String   @id @default("default")
+  heroKicker         String
+  heroTitle          String
+  heroLead           String
+  heroImageUrl       String   @default("/img/home/hero.jpg")
+  heroImageAlt       String   @default("FORMA Studio")
+  portraitImageUrl   String   @default("/img/about/portrait.jpg")
+  portraitImageAlt   String   @default("Studio portrait — glasses and knit collar against a neutral studio wall")
+  introKicker        String
+  introTitle         String
+  introBody          String[]
+  introImageUrl      String   @default("/img/home/intro.jpg")
+  introImageAlt      String   @default("Inside the studio")
+  philosophy         String[]
+  philosophyImageUrl String   @default("/img/home/philosophy.jpg")
+  philosophyImageAlt String   @default("Light and shadow detail")
+  process            Json     @default("[]")
+  stats              Json     @default("[]")
+  street             String
+  city               String
+  country            String
+  email              String
+  phone              String
+  hours              String
+  instagram          String?
+  linkedin           String?
+  foundedYear        Int
+  updatedAt          DateTime @updatedAt
 
   @@map("studio_profile")
 }

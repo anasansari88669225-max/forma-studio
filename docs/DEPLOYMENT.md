@@ -51,10 +51,15 @@ The Express API is a persistent Node service, not part of this static Vercel
 deployment. Set `VITE_API_URL` in Vercel's build environment to the API's
 absolute base URL including `/api` (for example
 `https://api.example.com/api`). Keep it unset locally: Vite then uses `/api`
-and the existing development proxy. On the API host, set `CORS_ORIGIN` to the
-Vercel site's exact origin and `PUBLIC_URL` to the public API origin. The
-database must be managed PostgreSQL, and dashboard-uploaded images need
+and the existing development proxy. Image paths are stored in the database as
+relative `/img/...` or `/uploads/...` URLs. The client resolves uploaded-image
+paths to the API origin from `VITE_API_URL`; seeded `/img/...` photos continue
+to come from the Vercel client deployment. On the API host, set `CORS_ORIGIN`
+to the Vercel site's exact origin and `PUBLIC_URL` to the public API origin.
+The database must be managed PostgreSQL, and dashboard-uploaded images need
 persistent or object storage; Vercel's deployment filesystem is not persistent.
+Apply `npm run migrate:deploy --workspace server` to the production database
+before deploying the API so the StudioProfile portrait fields are available.
 
 ---
 
@@ -89,7 +94,7 @@ the host's dashboard instead of committing a file.
 | `DATABASE_URL` | yes | managed Postgres, with `sslmode=require` |
 | `JWT_SECRET` | yes | ≥ 32 chars or the process refuses to boot. `node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"` |
 | `JWT_EXPIRES_IN` | no | `8h` default. Shorter is better on shared machines |
-| `PUBLIC_URL` | recommended | `https://your-domain.tld` — becomes the origin in `/sitemap.xml`, `/robots.txt`, Open Graph and every uploaded image URL |
+| `PUBLIC_URL` | recommended | `https://your-domain.tld` — becomes the origin in `/sitemap.xml`, `/robots.txt` and Open Graph |
 | `CORS_ORIGIN` | yes if split | comma-separated allowlist. Same-origin deploy → leave it at the public URL |
 | `PORT` | no | the host usually injects this; the app reads it |
 | `UPLOAD_DIR` | no | `uploads` (relative to `server/`). Must be a **persistent volume** |
@@ -228,7 +233,8 @@ Three options, in increasing effort:
    `server/src/lib/storage.js` with S3/Cloudinary calls and keep everything else
    — the API returns `{ url, webpUrl, smallUrl, smallWebpUrl, width, height,
    bytes, variants }` and nothing outside that file cares where the bytes live.
-   Set `PUBLIC_URL` so the returned URLs are absolute.
+   The database stores relative `/uploads/...` paths; the client resolves them
+   to the API host using `VITE_API_URL`.
 3. **Re-seed instead of uploading.** If the studio will never edit imagery
    through the dashboard, `client/public/img` covers all 66 photographs and there
    is nothing to persist.

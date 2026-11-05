@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { resolveAssetUrl } from './images.js'
 
 /**
  * One-shot data fetch with the three states every page in this brief needs.
@@ -108,16 +109,17 @@ const setCanonical = (href) => {
 export function useSeo({ title, description, image, path, type = 'website' }) {
   useEffect(() => {
     const full = title?.includes('FORMA') ? title : `${title} — FORMA Studio`
+    const imageUrl = image ? new URL(resolveAssetUrl(image), window.location.origin).href : undefined
     setTitle(full)
     setMeta('description', description)
     setMeta('og:title', full)
     setMeta('og:description', description)
     setMeta('og:type', type)
-    setMeta('og:image', image)
+    setMeta('og:image', imageUrl)
     setMeta('twitter:card', image ? 'summary_large_image' : 'summary')
     setMeta('twitter:title', full)
     setMeta('twitter:description', description)
-    setMeta('twitter:image', image)
+    setMeta('twitter:image', imageUrl)
     if (path) setCanonical(new URL(path, window.location.origin).href)
   }, [title, description, image, path, type])
 }

@@ -22,7 +22,7 @@ export default function Home() {
     description:
       studio?.heroLead ??
       'A Lisbon architecture and interiors studio designing quiet, low-energy buildings across Portugal, mostly by keeping what already stands.',
-    image: studio?.heroImageUrl,
+    image: studio?.heroImageUrl ?? '/img/home/hero.jpg',
     path: '/',
     type: 'website',
   })
@@ -31,12 +31,11 @@ export default function Home() {
     <>
       <Hero
         variant="full"
-        jpgOnly
         kicker={studio?.heroKicker ?? 'Lisbon · Founded 2011'}
         title={studio?.heroTitle ?? 'Buildings that hold the light.'}
         lead={studio?.heroLead}
         image={{
-          src: '/img/home/hero.jpg',
+          src: studio?.heroImageUrl ?? '/img/home/hero.jpg',
           alt: studio?.heroImageAlt ?? 'Casa Marnal — west elevation at dusk, board-formed concrete under a deep oak canopy',
         }}
         actions={

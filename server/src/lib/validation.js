@@ -18,8 +18,8 @@ const imageUrl = z
   .string()
   .trim()
   .max(400)
-  .refine((value) => value.startsWith('/') || /^https?:\/\//.test(value), {
-    message: 'Image must be an uploaded file, a site path or an absolute URL.',
+  .refine((value) => /^\/(?:img|uploads)\/.+\.jpg$/i.test(value) && !/-sm\.jpg$/i.test(value), {
+    message: 'Use a base .jpg path under /img/ or /uploads/.',
   })
 
 const text = (min, max) => z.string().trim().min(min).max(max)
@@ -151,6 +151,8 @@ export const studioUpdateBody = z
     heroLead: text(10, 500),
     heroImageUrl: imageUrl,
     heroImageAlt: text(3, 180),
+    portraitImageUrl: imageUrl,
+    portraitImageAlt: text(3, 180),
     introKicker: text(1, 80),
     introTitle: text(3, 180),
     introImageUrl: imageUrl,

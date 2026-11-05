@@ -412,6 +412,8 @@ const studio = {
     'FORMA is an architecture and interiors studio working across Portugal. We design quiet, low-energy buildings — mostly by keeping what already exists and cutting into it carefully.',
   heroImageUrl: `${IMG}/home/hero.jpg`,
   heroImageAlt: 'Casa Marnal — west elevation at dusk, board-formed concrete under a deep oak canopy',
+  portraitImageUrl: `${IMG}/about/portrait.jpg`,
+  portraitImageAlt: 'Studio portrait — glasses and knit collar against a neutral studio wall',
   introImageUrl: `${IMG}/home/intro.jpg`,
   introImageAlt: 'The FORMA drawing room in Príncipe Real, lit from the north',
   philosophyImageUrl: `${IMG}/home/philosophy.jpg`,

@@ -27,7 +27,7 @@ export const uploader = multer({
 })
 
 function publicUrl(folder, name) {
-  return `${config.publicBaseUrl}/uploads/${folder}/${name}`
+  return `/uploads/${folder}/${name}`
 }
 
 /** Only paths under our own uploads directory may be touched by removeImage. */

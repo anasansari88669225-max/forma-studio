@@ -9,6 +9,12 @@ const WIDTHS = { large: 1600, small: 800 }
 
 const isSitePath = (url) => typeof url === 'string' && (url.startsWith('/img/') || url.startsWith('/uploads/'))
 const splitExt = (url) => (/\.(jpe?g|png|webp)$/i.test(url) ? url.replace(/\.[a-z]+$/i, '') : url)
+const apiOrigin = (import.meta.env.VITE_API_URL ?? '')
+  .trim()
+  .replace(/\/api\/?$/i, '')
+  .replace(/\/+$/, '')
+
+export const resolveAssetUrl = (url) => (url.startsWith('/uploads/') && apiOrigin ? `${apiOrigin}${url}` : url)
 
 /** Absolute URLs (a CDN) have no local variant set, so they pass through bare. */
 export function variants(url) {
@@ -17,10 +23,10 @@ export function variants(url) {
   }
   const base = splitExt(url)
   return {
-    jpg: `${base}.jpg`,
-    webp: `${base}.webp`,
-    smallJpg: `${base}-sm.jpg`,
-    smallWebp: `${base}-sm.webp`,
+    jpg: resolveAssetUrl(`${base}.jpg`),
+    webp: resolveAssetUrl(`${base}.webp`),
+    smallJpg: resolveAssetUrl(`${base}-sm.jpg`),
+    smallWebp: resolveAssetUrl(`${base}-sm.webp`),
     external: false,
   }
 }

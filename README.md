@@ -130,7 +130,7 @@ Eight tables, three enums, real foreign keys.
 
 ```
 AdminUser        email · passwordHash (bcrypt, cost 12) · name · role · lastLoginAt
-StudioProfile    single row (id "default"): contact details, socials, stats, hero copy
+StudioProfile     single row (id "default"): contact details, socials, stats, home/about image URLs and copy
 Project     ┐    slug · category · status · year · location · areaSqm · materials
             │    excerpt · description · client · coverImageUrl · published · sortOrder
   └─ ProjectImage[]   url · webpUrl · smallUrl · smallWebpUrl · width · height · alt · sortOrder
@@ -216,6 +216,10 @@ Two paths, deliberately:
 **Seeded content** lives in `client/public/img/` — 66 photographs, each encoded
 into four variants (1600w and 800w, JPEG and WebP) with `scripts/build-images.mjs`.
 Vite copies them verbatim and they inherit a year of immutable cache.
+The homepage and About-page profile images, services, team portraits and project
+galleries are stored as relative `/img/...jpg` paths in `StudioProfile`,
+`Service`, `TeamMember` and project records. The About and Contact editorial
+photos remain intentionally page-local.
 
 **Uploaded content** goes to `server/uploads/` through `multer` + `sharp`. The
 upload buffer never touches disk as-is: `sharp` re-encodes it into the same four
@@ -225,9 +229,10 @@ Files are named `YYYYMMDD-<uuid8>.jpg` so they are unique and immutably
 cacheable. Uploads under 400 × 300 are refused — the layouts are full-bleed.
 
 `<Photo>` renders a `<picture>` with WebP and JPEG `srcset`s, `sizes` derived from
-the layout, and a skeleton shimmer until the image decodes. `client/src/lib/images.js`
-is the single place that turns a stored URL into the variant set, so the seeded
-and the uploaded paths are delivered identically.
+the layout, and a skeleton shimmer until the image decodes. Stored URLs stay
+relative; `client/src/lib/images.js` derives variants and, for `/uploads/...`,
+resolves them to the API host from `VITE_API_URL` when the client and API are
+deployed separately.
 
 Swapping the disk store for S3 or Cloudinary is a change to `storeImage` and
 `removeImage` in `server/src/lib/storage.js` only; the rest of the app sees a URL.

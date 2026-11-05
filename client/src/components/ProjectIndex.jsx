@@ -63,7 +63,7 @@ export default function ProjectIndex({ projects, startAt = 1 }) {
           style={{ '--px': `${point.x - 120}px`, '--py': `${point.y - 84}px` }}
           aria-hidden="true"
         >
-          {hovered && <img src={hovered.coverImageUrl} alt="" loading="lazy" decoding="async" />}
+          {hovered && <Photo src={hovered.coverImageUrl} alt="" layout="cover" />}
         </div>
       )}
     </>

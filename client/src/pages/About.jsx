@@ -31,7 +31,7 @@ export default function About() {
     description:
       studio?.introBody?.[0] ??
       'FORMA is an architecture and interiors studio working from a fourth-floor apartment in Príncipe Real, Lisbon. Founded 2011, eleven people, one north-lit room.',
-    image: ATELIER.src,
+    image: studio?.portraitImageUrl ?? ATELIER.src,
     path: '/about',
   })
 
@@ -69,6 +69,29 @@ export default function About() {
 
       {studio && (
         <>
+          <section className="section ab-portrait" aria-label="Studio portrait">
+            <div className="wrap grid grid--loose ab-portrait__grid">
+              <figure className="figure c-4 ab-portrait__figure">
+                <Photo
+                  src={studio.portraitImageUrl}
+                  alt={studio.portraitImageAlt}
+                  layout="third"
+                  className="photo--portrait"
+                />
+                <figcaption className="figure-cap">
+                  <span className="label">The studio</span>
+                  <span>Studio portrait</span>
+                </figcaption>
+              </figure>
+              <div className="c-7 from-6 ab-portrait__copy">
+                <p className="label label--ink">The practice</p>
+                <p className="lead measure">
+                  A partner leads every commission from the first site walk through to the final review.
+                </p>
+              </div>
+            </div>
+          </section>
+
           {/* ---------- history: asymmetric narrative with a stat ledger ---------- */}
           <section className="section ab-history" aria-labelledby="ab-history-title">
             <div className="wrap grid grid--loose ab-history__grid">
